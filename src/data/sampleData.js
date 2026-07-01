@@ -9,33 +9,102 @@ export const stats = [
   { title: 'Reports Generated', value: '18', change: '+5', tone: 'blue' },
 ];
 
+export const dashboardStats = [
+  { title: 'Overall compliance score', value: '64%', change: '+8% from last quarter', tone: 'blue' },
+  { title: 'Consent coverage', value: '71% complete', change: '5 key consent workflows', tone: 'emerald' },
+  { title: 'Pending requests', value: '8', change: '3 due this week', tone: 'amber' },
+  { title: 'Vendor risk score', value: 'Medium', change: '4 vendors under review', tone: 'rose' },
+];
+
+export const dashboardActivities = [
+  { title: 'Privacy notice reviewed', description: 'Updated notice language for checkout and loyalty communications.', time: '08:15 AM' },
+  { title: 'Data access request verified', description: 'Identity documents were checked and the request was routed for response.', time: '10:30 AM' },
+  { title: 'Vendor assessment refreshed', description: 'Razorpay and Mailchimp review status moved to pending approval.', time: '12:45 PM' },
+  { title: 'Compliance report generated', description: 'Monthly board summary created with risk actions and deadlines.', time: '03:05 PM' },
+];
+
+export const pendingActions = [
+  { title: 'Consent log review', detail: 'Add purpose-specific retention notes for marketing consent.' },
+  { title: 'Vendor assessment', detail: 'Complete security review and DPA for Mailchimp.' },
+  { title: 'Retention cleanup', detail: 'Archive order history older than 24 months based on retention policy.' },
+];
+
+export const recentWithdrawals = [
+  { user: 'Rahul Mehta', reason: 'Marketing emails' },
+  { user: 'Priya Sharma', reason: 'Order updates' },
+  { user: 'Aman Verma', reason: 'Newsletter' },
+];
+
+export const highRiskVendors = [
+  { name: 'Analytics Tool', risk: 'High risk', status: 'DPA missing' },
+  { name: 'Razorpay', risk: 'Medium risk', status: 'Agreement pending' },
+  { name: 'Mailchimp', risk: 'Medium risk', status: 'Review due' },
+];
+
+export const documentProgress = [
+  { label: 'Privacy Notice', value: 92 },
+  { label: 'Consent Notice', value: 86 },
+  { label: 'Breach Response Policy', value: 74 },
+  { label: 'Vendor Assessment Checklist', value: 64 },
+];
+
+export const consentCoverage = [
+  { label: 'Marketing', value: 81 },
+  { label: 'Order Processing', value: 92 },
+  { label: 'Support', value: 74 },
+  { label: 'Analytics', value: 61 },
+];
+
+export const requestStatus = [
+  { label: 'Submitted', value: 8 },
+  { label: 'Under verification', value: 5 },
+  { label: 'In review', value: 6 },
+  { label: 'Completed', value: 14 },
+  { label: 'Escalated', value: 2 },
+];
+
+export const vendorRiskDistribution = [
+  { label: 'Low risk', value: 28 },
+  { label: 'Medium risk', value: 52 },
+  { label: 'High risk', value: 20 },
+];
+
 export const consents = [
   {
     id: 1,
-    name: 'Aarav Mehta',
-    email: 'aarav@example.com',
+    name: 'Rahul Mehta',
+    email: 'rahul@example.com',
     consentType: 'Marketing',
-    purpose: 'Course updates',
+    purpose: 'Marketing Emails',
     status: 'Active',
-    date: '2026-06-01',
+    date: '2026-01-12',
   },
   {
     id: 2,
-    name: 'Nisha Rao',
-    email: 'nisha@example.com',
-    consentType: 'Analytics',
-    purpose: 'Learning insights',
-    status: 'Withdrawn',
-    date: '2026-05-19',
+    name: 'Priya Sharma',
+    email: 'priya@example.com',
+    consentType: 'Order Processing',
+    purpose: 'Order updates',
+    status: 'Active',
+    date: '2026-01-18',
   },
   {
     id: 3,
-    name: 'Karan Singh',
-    email: 'karan@example.com',
-    consentType: 'Communication',
-    purpose: 'Parent alerts',
-    status: 'Pending',
-    date: '2026-06-26',
+    name: 'Aman Verma',
+    email: 'aman@example.com',
+    consentType: 'Newsletter',
+    purpose: 'Product updates',
+    status: 'Withdrawn',
+    date: '2026-01-21',
+  },
+  {
+    id: 4,
+    name: 'Kavya Singh',
+    email: 'kavya@example.com',
+    consentType: 'App Analytics',
+    purpose: 'Usage insights',
+    status: 'Active',
+    date: '2026-01-25',
   },
 ];
 
@@ -257,13 +326,20 @@ export const aiInsights = [
 ];
 
 export const companyProfile = {
-  companyName: 'BrightLearn Academy',
-  industry: 'EdTech',
+  companyName: 'Arya Retail Pvt Ltd',
+  industry: 'Ecommerce',
+  employees: 85,
+  monthlyUsers: '42,000',
+  dataCategories: ['Name', 'Phone', 'Email', 'Address', 'Payment Data', 'Order History'],
+  vendors: ['Razorpay', 'AWS India', 'Email Marketing Tool', 'Logistics Partner'],
+  childrenData: 'No',
+  overallRisk: 'Medium',
+  complianceScore: '64%',
   adminName: 'Nikhil Sharma',
-  adminEmail: 'nikhil@brightlearn.ai',
+  adminEmail: 'nikhil@aryaretail.in',
   dpoName: 'Maya Verma',
-  dpoEmail: 'dpo@brightlearn.ai',
+  dpoEmail: 'dpo@aryaretail.in',
   grievanceOfficerName: 'Ravi Kulkarni',
-  grievanceEmail: 'grievance@brightlearn.ai',
-  businessAddress: '12, Innovation Park, Bengaluru, Karnataka',
+  grievanceEmail: 'grievance@aryaretail.in',
+  businessAddress: '18, MG Road, Mumbai, Maharashtra',
 };

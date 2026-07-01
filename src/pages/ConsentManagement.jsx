@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import StatusBadge from '../components/StatusBadge';
 import { consents as initialConsents } from '../data/sampleData';
 
@@ -13,6 +13,7 @@ const blankForm = {
 export default function ConsentManagement() {
   const [consents, setConsents] = useState(initialConsents);
   const [form, setForm] = useState(blankForm);
+  const formRef = useRef(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,11 +28,27 @@ export default function ConsentManagement() {
     };
     setConsents([entry, ...consents]);
     setForm(blankForm);
-    // TODO: Replace local state with Supabase persistence when the backend is ready.
   };
 
   const handleWithdraw = (id) => {
     setConsents(consents.map((item) => (item.id === id ? { ...item, status: 'Withdrawn' } : item)));
+  };
+
+  const handleExport = () => {
+    const rows = consents.map((item) => [item.name, item.email, item.consentType, item.purpose, item.status, item.date].join(','));
+    const csv = ['Name,Email,Consent Type,Purpose,Status,Date', ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'consent-records.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const focusForm = () => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    formRef.current?.querySelector('input')?.focus();
   };
 
   return (
@@ -43,12 +60,12 @@ export default function ConsentManagement() {
             <h2 className="mt-2 text-2xl font-semibold text-white">Capture and maintain user consent digitally</h2>
           </div>
           <div className="flex gap-3">
-            <button className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-2 text-sm font-medium text-slate-200">Export CSV</button>
-            <button className="rounded-2xl bg-blue-600 px-4 py-2 text-sm font-medium text-white">Add Consent</button>
+            <button onClick={handleExport} className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-2 text-sm font-medium text-slate-200">Export CSV</button>
+            <button onClick={focusForm} className="rounded-2xl bg-blue-600 px-4 py-2 text-sm font-medium text-white">Add Consent</button>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <form ref={formRef} onSubmit={handleSubmit} className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
           <input className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none" placeholder="User name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} required />
           <input className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none" placeholder="Email" type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} required />
           <select className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none" value={form.consentType} onChange={(event) => setForm({ ...form, consentType: event.target.value })}>

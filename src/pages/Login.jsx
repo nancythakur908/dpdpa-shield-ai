@@ -6,7 +6,7 @@ export default function Login({ onLogin }) {
   const handleLogin = (event) => {
     event.preventDefault();
     onLogin();
-    navigate('/');
+    navigate('/dashboard');
   };
 
   return (
