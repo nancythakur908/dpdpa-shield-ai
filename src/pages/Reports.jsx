@@ -17,7 +17,7 @@ export default function Reports() {
   };
 
   const handlePdf = () => {
-    const reportText = `DPDPA Shield AI Executive Report\nCompany: ${companyProfile.companyName}\nDate: ${new Date().toLocaleDateString('en-IN')}\nCompliance Score: 82/100\nConsent Summary: 2,840 consents logged, 2,410 active, 186 withdrawn.\nRights Request Summary: 24 requests pending review with 2 high-priority deletion cases.\nBreach Summary: 3 incidents recorded; no critical breach is currently open.`;
+    const reportText = `Privora AI Executive Report\nCompany: ${companyProfile.companyName}\nDate: ${new Date().toLocaleDateString('en-IN')}\nCompliance Score: 82/100\nConsent Summary: 2,840 consents logged, 2,410 active, 186 withdrawn.\nRights Request Summary: 24 requests pending review with 2 high-priority deletion cases.\nBreach Summary: 3 incidents recorded; no critical breach is currently open.`;
     const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import ProgressBar from '../components/ProgressBar';
 import StatusBadge from '../components/StatusBadge';
-import { companyProfile, consents, rightsRequests } from '../data/sampleData';
+import { companyProfile, consents, rightsRequests, vendors as demoVendors, dataInventory as demoInventory } from '../config/demoData';
+import brand from '../config/brand';
 
 const documentTemplates = [
   { title: 'Privacy Notice', status: 'Reviewed', lastGenerated: '12 Jun 2026' },
@@ -154,21 +155,22 @@ export function HomePage() {
       <section className="rounded-[2.2rem] border border-slate-800 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 shadow-soft sm:p-8 lg:p-10">
         <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-300">AI-powered DPDP compliance assistant</p>
-            <h1 className="mt-4 text-4xl font-semibold text-white sm:text-5xl">DPDPA Shield AI</h1>
-            <p className="mt-4 max-w-2xl text-lg text-slate-400">A premium compliance assistance platform for Indian businesses preparing for the Digital Personal Data Protection Act, 2023 and DPDP Rules, 2025.</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-300">{brand.platformLabel}</p>
+            <h1 className="mt-4 text-4xl font-semibold text-white sm:text-5xl">{brand.name}</h1>
+            <p className="mt-3 text-lg font-semibold italic text-blue-300/80">{brand.tagline}</p>
+            <p className="mt-4 max-w-2xl text-lg text-slate-400">{brand.description}</p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/compliance-scanner" className="rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-5 py-3 text-sm font-semibold text-white">Start Free Compliance Scan</Link>
+              <Link to="/compliance-scanner" className="rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-5 py-3 text-sm font-semibold text-white">Start Readiness Assessment</Link>
               <Link to="/dpo-services" className="rounded-full border border-slate-700 bg-slate-900 px-5 py-3 text-sm font-semibold text-white">Explore DPO Services</Link>
               <Link to="/document-generator?doc=privacy-notice" className="rounded-full border border-slate-700 bg-slate-900 px-5 py-3 text-sm font-semibold text-white">Generate Privacy Notice</Link>
             </div>
             <div className="mt-6 grid gap-3 rounded-2xl border border-slate-800 bg-slate-900/70 p-4 text-sm text-slate-300 sm:grid-cols-2">
-              <div>• Built for Indian DPDP readiness</div>
-              <div>• AI-assisted compliance workflow</div>
-              <div>• Privacy notice and consent templates</div>
-              <div>• Breach response support</div>
+              <div>• DPDP Readiness Assessment &amp; Action Plan</div>
+              <div>• Consent governance &amp; withdrawal management</div>
+              <div>• Vendor risk lifecycle &amp; DPA tracking</div>
+              <div>• Incident response &amp; breach management</div>
             </div>
-            <p className="mt-4 text-sm text-slate-500">This platform provides general compliance assistance and template-based guidance. It is not legal advice.</p>
+            <p className="mt-4 text-sm text-slate-500">{brand.disclaimer}</p>
           </div>
 
           <div className="rounded-[2rem] border border-slate-800 bg-slate-900/80 p-6">
@@ -909,78 +911,118 @@ export function DocumentGeneratorPage() {
 }
 
 export function VendorRiskPage() {
-  const vendors = [
-    { name: 'Razorpay', category: 'Payment Processor', data: 'Financial Data', risk: 'Medium Risk', status: 'Agreement Pending' },
-    { name: 'Mailchimp', category: 'Email Marketing', data: 'Email Data', risk: 'Medium Risk', status: 'Review Due' },
-    { name: 'AWS India', category: 'Cloud Hosting', data: 'Customer Data', risk: 'Low Risk', status: 'Approved' },
-    { name: 'Analytics Tool', category: 'Behaviour Data', data: 'Behaviour Data', risk: 'High Risk', status: 'DPA Missing' },
-  ];
-
   return (
     <div className="space-y-6">
       <div className="rounded-[2rem] border border-slate-800 bg-slate-900/70 p-6">
         <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-300">Vendor Risk Management</p>
         <h2 className="mt-2 text-3xl font-semibold text-white">Track processors, agreements and exposure</h2>
+        <p className="mt-3 max-w-3xl text-sm text-slate-400">Monitor vendor Data Processing Agreements, risk scores, contract expiry and reassessment status for all your data processors.</p>
+      </div>
+      <div className="grid gap-4 md:grid-cols-3">
+        {[['Total Vendors', String(demoVendors.length)], ['High Risk', '1'], ['DPA Missing / Pending', '2']].map(([label, value]) => (
+          <div key={label} className="rounded-2xl border border-slate-800 bg-slate-950/80 p-5">
+            <p className="text-sm text-slate-400">{label}</p>
+            <p className="mt-2 text-3xl font-bold text-white">{value}</p>
+          </div>
+        ))}
       </div>
       <div className="rounded-[2rem] border border-slate-800 bg-slate-950/95 p-6">
-        <div className="overflow-hidden rounded-2xl border border-slate-800">
+        <div className="table-container overflow-x-auto rounded-2xl border border-slate-800">
           <table className="min-w-full divide-y divide-slate-800 text-left text-sm">
             <thead className="bg-slate-950/80 text-slate-400">
               <tr>
                 <th className="px-4 py-3">Vendor</th>
-                <th className="px-4 py-3">Data category</th>
+                <th className="px-4 py-3">Service</th>
+                <th className="px-4 py-3">Data categories</th>
+                <th className="px-4 py-3">DPA Status</th>
                 <th className="px-4 py-3">Risk</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Approval</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 bg-slate-900/70 text-slate-200">
-              {vendors.map((vendor) => (
-                <tr key={vendor.name}><td className="px-4 py-3">{vendor.name}</td><td className="px-4 py-3">{vendor.data}</td><td className="px-4 py-3">{vendor.risk}</td><td className="px-4 py-3">{vendor.status}</td></tr>
+              {demoVendors.map((vendor) => (
+                <tr key={vendor.id} className="hover:bg-slate-900/40 transition">
+                  <td className="px-4 py-3 font-medium text-white">{vendor.name}</td>
+                  <td className="px-4 py-3 text-slate-400">{vendor.service}</td>
+                  <td className="px-4 py-3 text-slate-400">{vendor.dataCategories.slice(0,2).join(', ')}{vendor.dataCategories.length > 2 ? '...' : ''}</td>
+                  <td className="px-4 py-3">
+                    <span className={`rounded-full border px-2 py-0.5 text-xs font-medium ${
+                      vendor.dpaStatus === 'Missing' ? 'border-rose-500/30 bg-rose-500/10 text-rose-400' :
+                      vendor.dpaStatus === 'Signed' ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400' :
+                      'border-amber-500/30 bg-amber-500/10 text-amber-400'
+                    }`}>{vendor.dpaStatus}</span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={`rounded-full border px-2 py-0.5 text-xs font-medium ${
+                      vendor.residualRisk === 'High' ? 'border-rose-500/30 text-rose-400' :
+                      vendor.residualRisk === 'Medium' ? 'border-amber-500/30 text-amber-400' :
+                      'border-emerald-500/30 text-emerald-400'
+                    }`}>{vendor.residualRisk}</span>
+                  </td>
+                  <td className="px-4 py-3 text-slate-400 text-xs">{vendor.approvalStatus}</td>
+                </tr>
               ))}
             </tbody>
           </table>
         </div>
+        <p className="mt-4 text-xs text-slate-600">Full vendor lifecycle management with questionnaire, evidence upload, DPA tracking and offboarding coming in Phase 3.</p>
       </div>
     </div>
   );
 }
 
 export function DataInventoryPage() {
-  const dataAssets = [
-    ['Name', 'Customer onboarding', 'Website form', 'Cloud DB', '24 months', 'No', 'Low'],
-    ['Phone', 'Order updates', 'Checkout form', 'Cloud DB', '24 months', 'Yes', 'Medium'],
-    ['Payment data', 'Payment capture', 'Payment gateway', 'Secure vault', '12 months', 'Yes', 'High'],
-    ['Health data', 'Appointment booking', 'Clinic portal', 'Encrypted storage', '18 months', 'Yes', 'High'],
-    ['Children data', 'Learning plan', 'Parent portal', 'Restricted storage', '12 months', 'No', 'High'],
-  ];
-
   return (
     <div className="space-y-6">
       <div className="rounded-[2rem] border border-slate-800 bg-slate-900/70 p-6">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-300">Data Inventory and Mapping</p>
-        <h2 className="mt-2 text-3xl font-semibold text-white">Map personal data categories to purposes, storage and vendors</h2>
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-300">Data Inventory</p>
+        <h2 className="mt-2 text-3xl font-semibold text-white">Personal data processing activities — Arya Retail Pvt Ltd</h2>
+        <p className="mt-3 max-w-3xl text-sm text-slate-400">A register of personal data categories, processing purposes, storage locations, retention periods and associated vendors.</p>
+      </div>
+      <div className="grid gap-4 md:grid-cols-4">
+        {[['Total Activities', String(demoInventory.length)], ['High Risk', '2'], ['Missing Retention', '0'], ['Vendor Shared', '4']].map(([label, value]) => (
+          <div key={label} className="rounded-2xl border border-slate-800 bg-slate-950/80 p-5">
+            <p className="text-sm text-slate-400">{label}</p>
+            <p className="mt-2 text-3xl font-bold text-white">{value}</p>
+          </div>
+        ))}
       </div>
       <div className="rounded-[2rem] border border-slate-800 bg-slate-950/95 p-6">
-        <div className="overflow-hidden rounded-2xl border border-slate-800">
+        <div className="table-container overflow-x-auto rounded-2xl border border-slate-800">
           <table className="min-w-full divide-y divide-slate-800 text-left text-sm">
             <thead className="bg-slate-950/80 text-slate-400">
               <tr>
+                <th className="px-4 py-3">Data field</th>
                 <th className="px-4 py-3">Category</th>
                 <th className="px-4 py-3">Purpose</th>
-                <th className="px-4 py-3">Source</th>
+                <th className="px-4 py-3">System</th>
                 <th className="px-4 py-3">Storage</th>
                 <th className="px-4 py-3">Retention</th>
-                <th className="px-4 py-3">Vendor Shared</th>
                 <th className="px-4 py-3">Risk</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 bg-slate-900/70 text-slate-200">
-              {dataAssets.map(([category, purpose, source, storage, retention, vendor, risk]) => (
-                <tr key={category}><td className="px-4 py-3">{category}</td><td className="px-4 py-3">{purpose}</td><td className="px-4 py-3">{source}</td><td className="px-4 py-3">{storage}</td><td className="px-4 py-3">{retention}</td><td className="px-4 py-3">{vendor}</td><td className="px-4 py-3">{risk}</td></tr>
+              {demoInventory.map((item) => (
+                <tr key={item.id} className="hover:bg-slate-900/40 transition">
+                  <td className="px-4 py-3 font-medium text-white">{item.fieldName}</td>
+                  <td className="px-4 py-3 text-slate-400">{item.category}</td>
+                  <td className="px-4 py-3 text-slate-400">{item.purpose}</td>
+                  <td className="px-4 py-3 text-slate-400">{item.system}</td>
+                  <td className="px-4 py-3 text-slate-400">{item.storageLocation}</td>
+                  <td className="px-4 py-3 text-slate-400">{item.retention}</td>
+                  <td className="px-4 py-3">
+                    <span className={`rounded-full border px-2 py-0.5 text-xs font-medium ${
+                      item.riskLevel === 'High' ? 'border-rose-500/30 text-rose-400' :
+                      item.riskLevel === 'Medium' ? 'border-amber-500/30 text-amber-400' :
+                      'border-emerald-500/30 text-emerald-400'
+                    }`}>{item.riskLevel}</span>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>
         </div>
+        <p className="mt-4 text-xs text-slate-600">Full CRUD data inventory with bulk import, export, evidence upload and change history coming in Phase 3.</p>
       </div>
     </div>
   );
@@ -1014,14 +1056,23 @@ export function SettingsPage() {
           <div className="space-y-3 text-sm text-slate-400">
             <p><span className="text-white">Company:</span> {companyProfile.companyName}</p>
             <p><span className="text-white">Industry:</span> {companyProfile.industry}</p>
+            <p><span className="text-white">Business model:</span> {companyProfile.businessModel}</p>
+            <p><span className="text-white">Employees:</span> {companyProfile.employees}</p>
+            <p><span className="text-white">Monthly users:</span> {companyProfile.monthlyUsers}</p>
             <p><span className="text-white">Contact email:</span> {companyProfile.adminEmail}</p>
-            <p><span className="text-white">DPO/contact:</span> {companyProfile.dpoName}</p>
+            <p><span className="text-white">Privacy contact:</span> {companyProfile.privacyContactName} — {companyProfile.privacyContactEmail}</p>
+            <p><span className="text-white">Grievance officer:</span> {companyProfile.grievanceOfficerName}</p>
           </div>
         </SectionCard>
         <SectionCard title="Risk profile">
+          <p className="text-sm text-slate-400 mb-3">Select your business type (only the applicable type should be selected in your real profile):</p>
           <div className="flex flex-wrap gap-2">
-            {['Startup', 'MSME', 'SaaS', 'Ecommerce', 'School/EdTech', 'Clinic/HealthTech', 'Agency', 'Enterprise'].map((item) => (
-              <span key={item} className="rounded-full border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-slate-300">{item}</span>
+            {[{label: 'Ecommerce', active: true}, {label: 'D2C Brand', active: true}, {label: 'Startup', active: false}, {label: 'MSME', active: true}, {label: 'SaaS', active: false}, {label: 'Agency', active: false}, {label: 'EdTech', active: false}, {label: 'HealthTech', active: false}, {label: 'Enterprise', active: false}].map((item) => (
+              <span key={item.label} className={`rounded-full border px-3 py-2 text-sm ${
+                item.active
+                  ? 'border-blue-500/40 bg-blue-500/10 text-blue-300 font-semibold'
+                  : 'border-slate-700 bg-slate-950/80 text-slate-500'
+              }`}>{item.label}</span>
             ))}
           </div>
         </SectionCard>
